@@ -265,7 +265,15 @@ namespace ft
                     else
                         resize(_size - 1);
                 }
-
+        //iterator//
+            iterator begin() {return iterator(_arr);}
+            const_iterator begin() const {return const_iterator(_arr);}
+            iterator end() {return iterator(_arr + _size);}
+            const_iterator end() const {return const_iterator(_arr + _size);}
+            iterator rbegin() {return reversse_iterator(end());}
+            const_iterator rbegin() const {return const_reverse_iterator(end());}
+            iterator rend() {return iterator(begn());}
+            const_iterator rend() const {return const_reverse_iterator(begin());}
     };
     //==================================Non MEmber Function============================//
     template<class T, class Alloc>
