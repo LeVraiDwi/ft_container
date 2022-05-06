@@ -1,22 +1,29 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 # include <memory>
+# include "iterator.hpp"
+# include "iteratorVector.hpp"
+# include "reverseIterator.hpp"
+
 namespace ft
 {
-    template <typename T, class Allocator = std:: allocator<T>>
-    class vector::{
+    template < typename T, class Allocator = std:: allocator<T> >
+    class vector
+    {
         //=========================Menber Types======================//
         public:
-            typedef             T                               value_type;
-            typedef             Allocator                       allocator_type;
-            typedef typename    allocator_type::reference       reference;
-            typedef typename    allocator_type::const_reference const_reference;
-            typedef typename    allocator_type::pointer         pointer;
-            typedef typename    allocator_type::const_pointer   const_pointer;
-            typedef             vector_iterator<pointer>        iterator;
-            typedef             vector_iterator<const_pointer>  const_iterator;
-            typedef             reverse_iterator<pointer>       reverse_iterator;
-            typedef             reverse_iterator<const_pointer> const_reverse_iterator;
+            typedef T value_type;
+            typedef Allocator allocator_type;
+            typedef typename allocator_type::size_type size_type;
+            typedef typename allocator_type::difference_type difference_type;
+            typedef typename allocator_type::reference reference;
+            typedef typename allocator_type::const_reference const_reference;
+            typedef typename allocator_type::pointer pointer;
+            typedef typename allocator_type::const_pointer const_pointer;
+            typedef vector_iterator<pointer> iterator;
+            typedef vector_iterator<const_pointer> const_iterator;
+            typedef reverse_iterator<const_iterator> const_reverse_iterator;
+	    	typedef reverse_iterator<iterator> reverse_iterator;
         //==========================================================//
         //========Private Menber====================================//
         private:
@@ -47,8 +54,8 @@ namespace ft
         //====================Menber Functions=======================//
         public:
         //Constructeur//
-            vector(): _arr(NULL), _size(0), __capacity(0) { }
-            explicit vector (const allocator_type& alloc = allocator_type()): _arr(NULL), _size(0), _capacity(0) { _alloc = alloc}
+            vector(): _arr(NULL), _size(0), _capacity(0) { }
+            explicit vector (const allocator_type& alloc = allocator_type()): _arr(NULL), _size(0), _capacity(0) { _alloc = alloc;}
             explicit vector (size_type n, const value_type& val = value_type(),
                 const allocator_type& alloc = allocator_type()): _size(n), _capacity(n), _alloc(alloc)
             {
@@ -74,7 +81,7 @@ namespace ft
                         first++;
                     }
                 }
-            vector (const vector& x): _arr(NULL), _size(0), _capacity(0) {*this = x}
+            vector (const vector& x): _arr(NULL), _size(0), _capacity(0) {*this = x;}
         //operator =//
             vector& operator = (const vector& x)
             {
@@ -82,11 +89,11 @@ namespace ft
                     _delete(_capacity);
                 _size = x._size;
                 _capacity = _size;
-                _alloc = this._alloc;
+                _alloc = this->_alloc;
                 _arr = _alloc.allocate(_capacity);
                 for (size_type i = 0; i < _capacity; i++)
                 {
-                    _alloc.construct(_arr + i, x._arr[i])
+                    _alloc.construct(_arr + i, x._arr[i]);
                 }
                 return *this;
             }
@@ -96,7 +103,7 @@ namespace ft
                 if (_arr)
                 {
                     clear();
-                    _alloc.dealloccate(_arr, _capacity);
+                    _alloc.deallocate(_arr, _capacity);
                 }
             }
         //Allocator//
@@ -118,8 +125,8 @@ namespace ft
             const_reference front() const{return _arr[0];}
             reference back() {return _arr[_size];}
             const_reference back() const {return _arr[_size];}
-            pointer data() noexcept {return _arr};
-            const_pointer data() const noexcept {return _arr};
+            pointer data() {return _arr;}
+            const_pointer data() const {return _arr;}
         //Capacity//
             bool        empty() const{ return (begin() == end());}
             size_type   size() const {return _size;}
@@ -134,7 +141,7 @@ namespace ft
                 {
                     new_arr = _alloc.allocate(new_cap);
                     for (size_type i = 0; i < new_cap; i++)
-                        _alloc.construct(new_arr + i, arr[i]);
+                        _alloc.construct(new_arr + i, _arr[i]);
                     _delete(_capacity);
                     _capacity = new_cap;
                     _arr = new_arr;
@@ -170,7 +177,7 @@ namespace ft
                     _arr = new_arr;
                 }
                 else if (_size > count)
-                    for (size_type i = size - 1; i >= (int)count; i--)
+                    for (size_type i = _size - 1; i >= (int)count; i--)
                         _alloc.destroy(_arr + i);
                 else
                     for (size_type i = _size; i < count; i++)
@@ -200,11 +207,11 @@ namespace ft
                 void insert(iterator pos, InputIt first, InputIt last)
                 {
                     size_type   dst = _dist(begin(), pos);
-                    size_type   distance = _dist(begin(), last());
+                    size_type   distance = _dist(first, last);
                     iterator    old_end = end() - 1;
                     value_type  values[distance];
 
-                    resize(_size + count);
+                    resize(_size + distance);
                     for(size_type i = 0; first != last; i++)
                     {
                         values[i] = *first;
@@ -221,7 +228,7 @@ namespace ft
                 iterator erase(iterator pos)
                 {
                     for (size_type i = pos - this->begin(); i < this->size() - 1; i++)
-                        *(_arr + i) = *(arr + i + 1);
+                        *(_arr + i) = *(_arr + i + 1);
                     _alloc.destroy(_arr + _size - 1);
                     --_size;
                     return pos;
@@ -230,7 +237,7 @@ namespace ft
                 {
                     size_type   first_dst = _dist(begin(), first);
                     size_type   last_dst  = _dist(begin(), last);
-                    iterator    first_end = begin + first_dst;
+                    iterator    first_end = begin() + first_dst;
                     for (iterator it = begin() + last_dst; it != end(); it++)
                     {
                         *first_end =*it;
@@ -272,39 +279,39 @@ namespace ft
             const_iterator end() const {return const_iterator(_arr + _size);}
             iterator rbegin() {return reversse_iterator(end());}
             const_iterator rbegin() const {return const_reverse_iterator(end());}
-            iterator rend() {return iterator(begn());}
+            iterator rend() {return iterator(begin());}
             const_iterator rend() const {return const_reverse_iterator(begin());}
     };
     //==================================Non MEmber Function============================//
-    template<class T, class Alloc>
-        bool    operator==(const ft::vector<T, allac>& lhs, const ft::vector<T, Alloc>& rhs)
+    /*template<class T, class Alloc>
+        bool    operator==(const ft::vector<T, alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
             if (lhs.size() != rhs.size())
                 return false;
             return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
-        }
+        }*/ //need equal
     template<class T, class Alloc>
-        bool    operator!=(const ft::vector<T, allac>& lhs, const ft::vector<T, Alloc>& rhs)
+        bool    operator!=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
             return (!(lhs == rhs));
         }
-    template<class T, class Alloc>
-        bool    operator<(const ft::vector<T, allac>& lhs, const ft::vector<T, Alloc>& rhs)
+    /*template<class T, class Alloc>
+        bool    operator<(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
             return (ft::lexicographical_comapre(lhs.begin(), lhs.end9), rhs.begin(), rhs.end()));
-        }
+        }*/ //need lexico
     template<class T, class Alloc>
-        bool    operator<=(const ft::vector<T, allac>& lhs, const ft::vector<T, Alloc>& rhs)
+        bool    operator<=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
-                return (!(rhs < lsh));
+                return (!(rhs < lhs));
         }
     template<class T, class Alloc>
-        bool    operator>(const ft::vector<T, allac>& lhs, const ft::vector<T, Alloc>& rhs)
+        bool    operator>(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
-            return (rhs < lsh);
+            return (rhs < lhs);
         }
     template<class T, class Alloc>
-        bool    operator!=(const ft::vector<T, allac>& lhs, const ft::vector<T, Alloc>& rhs)
+        bool    operator>=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
             return (!(rhs > lhs));
         }
