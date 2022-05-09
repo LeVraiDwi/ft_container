@@ -10,7 +10,8 @@ SRC_NAME = main.cpp
 
 HEADER_PATH = ./include
 
-HEADER_NAME = iterator.hpp iteratorVector.hpp reverseIterator.hpp vector.hpp 
+HEADER_NAME = 	iterator.hpp iteratorVector.hpp reverseIterator.hpp\
+		vector.hpp algo.hpp pair.hpp\
 
 OBJS = ${SRCS:.cpp=.o}
 

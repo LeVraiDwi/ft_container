@@ -4,6 +4,7 @@
 # include "iterator.hpp"
 # include "iteratorVector.hpp"
 # include "reverseIterator.hpp"
+# include "algo.hpp"
 
 namespace ft
 {
@@ -283,23 +284,23 @@ namespace ft
             const_iterator rend() const {return const_reverse_iterator(begin());}
     };
     //==================================Non MEmber Function============================//
-    /*template<class T, class Alloc>
-        bool    operator==(const ft::vector<T, alloc>& lhs, const ft::vector<T, Alloc>& rhs)
+    template<class T, class Alloc>
+        bool    operator==(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
             if (lhs.size() != rhs.size())
                 return false;
             return (ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
-        }*/ //need equal
+        }
     template<class T, class Alloc>
         bool    operator!=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
             return (!(lhs == rhs));
         }
-    /*template<class T, class Alloc>
+    template<class T, class Alloc>
         bool    operator<(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
-            return (ft::lexicographical_comapre(lhs.begin(), lhs.end9), rhs.begin(), rhs.end()));
-        }*/ //need lexico
+            return (ft::lexicographical_compare(lhs.begin(), lhs.end9), rhs.begin(), rhs.end());
+        }
     template<class T, class Alloc>
         bool    operator<=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
