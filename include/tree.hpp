@@ -10,25 +10,25 @@ namespace ft
                 typedef T   value_type;
                 typedef Node*   node_ptr;
 
-                value_type  value;
+                value_type  pair;
                 Node        *right;
                 Node        *left;
                 Node        *parent;
-                bool        is_left;
-                bool        color;
+                bool        is_init;
+                bool        is_end;
 
-                Node(): value(NULL), right(NULL), left(NULL), parent(NULL), is_left(false), color(false);
-                Node(const value_type &value): value(value), right(NULL), left(NULL), parent(NULL), is_left(false), color(true);
-                Node(Node& other): value(other.value), right(other.right), left(other.left), parent(other.parent), is_left(other.is_left), color(other.color);
+                Node(): pair(NULL), right(NULL), left(NULL), parent(NULL), is_init(false), is_end(false);
+                Node(const value_type &value): pair(value), right(NULL), left(NULL), parent(NULL), is_init(false), is_end(true);
+                Node(Node& other): pair(other.value), right(other.right), left(other.left), parent(other.parent), is_init(other.is_init), is_end(other.is_end);
 
                 Node& operator=(const Node& other)
                 {
-                    value = other.value;
+                    pair = other.pair;
                     parent = other.parent;
                     right = other.right;
                     left = other.left;
-                    is_left = other.is_left;
-                    color = other.color;
+                    is_init = other.is_init;
+                    is_end = other.is_end;
                     return *this;
                 }
 
@@ -36,7 +36,7 @@ namespace ft
                 {
                     if (parent == NULL)
                         return NULL;
-                    else if (parent->is_left)
+                    else if (parent->is_init)
                     {
                         return parent->parent->right);
                     }
