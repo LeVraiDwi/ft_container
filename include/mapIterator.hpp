@@ -55,7 +55,7 @@ namespace ft
                     else
                     {
                         res = node->parent;
-                        while (res && node->is_left)
+                        while (res && node->left)
                         {
                             node = res;
                             res = res->parent;
@@ -139,7 +139,7 @@ namespace ft
                     else
                     {
                         ret = node->parent;
-                        while (ret && !node->is_left)
+                        while (ret && !node->left)
                         {
                             node = ret;
                             ret = ret->parent;
@@ -162,7 +162,7 @@ namespace ft
                     else
                     {
                         res = node->parent;
-                        while (res && node->is_left)
+                        while (res && node->left)
                         {
                             node = res;
                             res = res->parent;
