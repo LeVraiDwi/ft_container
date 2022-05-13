@@ -11,7 +11,8 @@ SRC_NAME = main.cpp
 HEADER_PATH = ./include
 
 HEADER_NAME = 	iterator.hpp iteratorVector.hpp reverseIterator.hpp\
-		vector.hpp algo.hpp pair.hpp\
+				vector.hpp algo.hpp pair.hpp\
+				map.hpp mapIterator.hpp tree.hpp\
 
 OBJS = ${SRCS:.cpp=.o}
 

@@ -31,18 +31,6 @@ namespace ft
                     is_end = other.is_end;
                     return *this;
                 }
-
-                node_ptr    get_aunt()
-                {
-                    if (parent == NULL)
-                        return NULL;
-                    else if (parent->is_init)
-                    {
-                        return parent->parent->right);
-                    }
-                    else
-                        return parent->parent->left;
-                }
         };
 }
 #endif

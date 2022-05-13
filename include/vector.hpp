@@ -23,8 +23,8 @@ namespace ft
             typedef typename allocator_type::const_pointer const_pointer;
             typedef vector_iterator<pointer> iterator;
             typedef vector_iterator<const_pointer> const_iterator;
-            typedef reverse_iterator<const_iterator> const_reverse_iterator;
-	    	typedef reverse_iterator<iterator> reverse_iterator;
+            typedef reverseIterator<const_iterator> const_reverse_iterator;
+	    	typedef reverseIterator<iterator> reverse_iterator;
         //==========================================================//
         //========Private Menber====================================//
         private:

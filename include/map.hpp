@@ -1,11 +1,12 @@
 #ifndef MAP_HPP
 # define MAP_HPP
+# include <functional>
+# include <memory>
 # include "pair.hpp"
 # include "iterator.hpp"
 # include "mapIterator.hpp"
 # include "reverseIterator.hpp"
-# include <functional>
-# include <memory>
+# include "tree.hpp"
 
 namespace ft
 {
@@ -25,10 +26,12 @@ namespace ft
                 typedef typename allocator_type::const_pointer const_pointer;
                 typedef typename allocator_type::size_type size_type;
                 typedef typename allocator_type::different_type different_type;
-                typedef ft::map_iterator< Node<value_type> >    iterator;
-                typedef ft::const_map_iterator< Node<value_type> >  const_iterator;
-                typedef ft::reverse_iterator<iterator>              reverse_iterator;
-                typedef ft::reverse_iterator<const_iterator>        const_reverse_iterator;
+                typedef Node<value_type>* node_ptr;
+                typedef Node<value_type> node;
+                typedef ft::map_iterator<value_type> iterator;
+                typedef ft::const_map_iterator<value_type > const_iterator;
+                typedef ft::reverse_iterator<iterator> reverse_iterator;
+                typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
                 typedef typename Alloc::template rebind< Node<value_type> >::other	node_allocator;
 
@@ -45,9 +48,6 @@ namespace ft
                             return (comp(x.first, y.first));
                         }
                 };
-
-                typedef Node<value_type>*   node_ptr;
-                typedef Node<value_type>    node;
 
             protected:
                 node_ptr   root;
