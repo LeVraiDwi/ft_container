@@ -1,7 +1,8 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#include <vector.hpp>
+#include "vector.hpp"
+#include "map.hpp"
 #include <stdlib.h>
 /*#if 1 //CREATE A REAL STL EXAMPLE
 	#include <map>

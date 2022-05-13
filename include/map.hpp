@@ -30,8 +30,8 @@ namespace ft
                 typedef Node<value_type> node;
                 typedef ft::map_iterator<value_type> iterator;
                 typedef ft::const_map_iterator<value_type > const_iterator;
-                typedef ft::reverse_iterator<iterator> reverse_iterator;
-                typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
+                typedef ft::reverseIterator<iterator> reverse_iterator;
+                typedef ft::reverseIterator<const_iterator> const_reverse_iterator;
 
                 typedef typename Alloc::template rebind< Node<value_type> >::other	node_allocator;
 
@@ -43,7 +43,7 @@ namespace ft
                         key_compare comp;
                         value_compare(key_compare c): comp(c) {}
                     public:
-                        bool operator() (const value_type& c, const value_type& y) const
+                        bool operator() (const value_type& x, const value_type& y) const
                         {
                             return (comp(x.first, y.first));
                         }
@@ -58,15 +58,15 @@ namespace ft
                 node        _end;
 
             public:
-                explicit map(const key_compare& = key_compare(), const allocator_type& alloc = allocator_type()): _allocator(alloc), _node_allocator(), _comp(comp)
+                explicit map(const key_compare& key = key_compare(), const allocator_type& alloc = allocator_type()): _allocator(alloc), _node_allocator(), _comp(key)
                 {
                     _size = 0;
                     root = _node_allocator.allocate(1);
 
                     _node_allocator.construct(root, Node<value_type>());
 
-                    _end = node.allocator.allocate(1);
-                    node.allocator.construct(_end, Node<value_type>());
+                    _end = _node_allocator.allocate(1);
+                    _node_allocator.construct(_end, Node<value_type>());
                     _end->is_end = true;
                     root->right = this->_end;
                     _end->parent = root;
@@ -84,7 +84,7 @@ namespace ft
                             _node_allocator.cnstruct(_end, Node<value_type>());
                             _end->is_ed = true;
                             _end->parent = root;
-                            root->right = thie->end;
+                            root->right = this->end;
 
                             insert(first, last);
                         }
@@ -108,7 +108,7 @@ namespace ft
                     const_iterator end = copy.end;
                     root->right = _end;
                     _end->is_end = true;
-                    _end->[arent = root;
+                    _end->parent = root;
                     while (it != end)
                     {
                         insert(it.ptr->pair);
@@ -180,11 +180,11 @@ namespace ft
                         root->is_init = true;
                         _size++;
 
-                        return ft_make_pair<iterator, bool>(begin(), true);
+                        return ft::make_pair<iterator, bool>(begin(), true);
                     }
                     node_ptr    new_node;
 
-                    new_node = __node_allocator.allocate(1);
+                    new_node = _node_allocator.allocate(1);
                     _node_allocator.construct(new_node, Node<value_type>());
                     _allocator.construct(&new_node->pair, val);
                     iterator it;
@@ -287,7 +287,7 @@ namespace ft
                                 node_ptr new_node;
 
                                 new_node = _node_allocator.allocate(1);
-                                node_allcator.construct(new_node, Node<value_type>());
+                                _node_allocator.construct(new_node, Node<value_type>());
                                 _allocator.construct(&new_node->pair, value);
                                 tmp->right = new_node;
                                 new_node->parent  = tmp;
@@ -325,7 +325,7 @@ namespace ft
                                     }
                                 }
                                 tmp - tmp->parent;
-                                if (tmp->parent == __end)
+                                if (tmp->parent == _end)
                                     tmp = tmp->parent;
                             }
                             _size++;
@@ -349,24 +349,38 @@ namespace ft
                         return (find(value.first));
                     }
                     
-                    iterator find (const key_type& k)
+                    iterator find(const key_type& k)
                     {
                         iterator    it;
                         iterator    it2 = this->end();
 
                         for (it = begin(); it != it2; it++)
                         {
-                            if ((*it).first == key);
+                            if (((*it).first) == k)
                                 return it;
                         }
                         return it;
                     }
 
+                    const_iterator find(const key_type& key) const
+                    {
+                        const_iterator it;
+                        const_iterator it2 = this->end();
+
+                        for(it  = begin(); it != it2; it++)
+                        {
+                            if ((*it).first == key)
+                                return it;
+                        }
+                        return it;
+                    }
+
+
                     void clear_nodes(node_ptr tmp)
                     {
                         if (tmp->left)
                             clear_nodes(tmp->left);
-                        if (tmo->right)
+                        if (tmp->right)
                             clear_nodes(tmp->right);
                         _node_allocator.destroy(tmp);
                         _node_allocator.deallocate(tmp, 1);
@@ -375,7 +389,7 @@ namespace ft
                     void clear()
                     {
                         clear_nodes(root);
-                        _end = node.allocate(1);
+                        _end = _node_allocator.allocate(1);
                         _node_allocator.construct(_end, Node<value_type>());
                         root = _node_allocator.allocate(1);
                         _node_allocator.construct(root, Node<value_type>());
@@ -517,19 +531,6 @@ namespace ft
                         return 0;
                     }
 
-                    const_iterator find(const key_type& key)
-                    {
-                        const_iterator it;
-                        const_iterator it2 = this->end();
-
-                        for(it  = begin(); it != it2; it++)
-                        {
-                            if ((it*).first == key)
-                                return it;
-                        }
-                        return it;
-                    }
-
                     iterator    upper_bound(const key_type& key)
                     {
                         iterator it;
@@ -584,7 +585,7 @@ namespace ft
 
                     size_type   count(const key_type& key) const
                     {
-                        if (find(key) != ed())
+                        if (find(key) != end())
                             return 1;
                         return 0;
                     }
@@ -608,12 +609,12 @@ namespace ft
                     
                     size_type size() const
                     {
-                        return_size;
+                        return _size;
                     }
 
                     size_type   max_size() const
                     {
-                        return node_allocator.max_size();
+                        return _node_allocator.max_size();
                     }
 
                     value_compare   value_cmp() const
@@ -630,6 +631,7 @@ namespace ft
                     {
                         node_ptr        tmp_root = src.root;
                         allocator_type  tmp_allocator = src.allocator;
+                        node_allocator  tmp_node_allocator = src._node_allocator;
                         size_type       tmp_size = src._size;
                         key_compare     tmp_comp = src.comp;
                         node_ptr        tmp_end = src.end;
@@ -701,20 +703,20 @@ namespace ft
         template<class Key, class T, class Compare, class Alloc>
             bool operator>(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
             {
-                return (!(lhs < rhs) && !(lsh == rhs));
+                return (!(lhs < rhs) && !(lhs == rhs));
             }
         template<class Key, class T, class Compare, class Alloc>
             bool operator<=(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
             {
-                return !(rhs < lsh);
+                return !(rhs < lhs);
             }
         template<class Key, class T, class Compare, class Alloc>
             bool operator>=(const map<Key, T, Compare, Alloc>& lhs, const map<Key, T, Compare, Alloc>& rhs)
             {
-                return (rhs > lsh);
+                return (rhs > lhs);
             }
         template<class Key, class T, class Compare, class Alloc>
-            bool operator>(map<Key, T, Compare, Alloc>& lhs, map<Key, T, Compare, Alloc>& rhs)
+            void swap (map<Key,T,Compare,Alloc>& x, map<Key,T,Compare,Alloc>& y)
             {
                 x.swap(y);
             }

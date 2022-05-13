@@ -17,9 +17,9 @@ namespace ft
                 bool        is_init;
                 bool        is_end;
 
-                Node(): pair(NULL), right(NULL), left(NULL), parent(NULL), is_init(false), is_end(false);
-                Node(const value_type &value): pair(value), right(NULL), left(NULL), parent(NULL), is_init(false), is_end(true);
-                Node(Node& other): pair(other.value), right(other.right), left(other.left), parent(other.parent), is_init(other.is_init), is_end(other.is_end);
+                Node(): pair(NULL), right(NULL), left(NULL), parent(NULL), is_init(false), is_end(false) {}
+                Node(const value_type &value): pair(value), right(NULL), left(NULL), parent(NULL), is_init(false), is_end(true) {}
+                Node(Node& other): pair(other.value), right(other.right), left(other.left), parent(other.parent), is_init(other.is_init), is_end(other.is_end) {}
 
                 Node& operator=(const Node& other)
                 {

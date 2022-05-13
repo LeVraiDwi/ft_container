@@ -19,25 +19,26 @@ namespace ft
                 iterator_type   _get_successor(iterator_type node)
                 {
                     iterator_type   ret;
+                    iterator_type   next;
 
                     if (!node)
                         return (NULL);
                     if (node->right)
                     {
                         ret = node->right;
-                        while (res->left)
-                            res = res->left;
+                        while (ret->left)
+                            ret = ret->left;
                     }
                     else
                     {
-                        res = node->parent;
-                        while (res && !node->is_left)
+                        ret = node->parent;
+                        while (ret && !node->left)
                         {
-                            node = res;
-                            res = res->parent;
+                            node = ret;
+                            ret = ret->parent;
                         }
                     }
-                    return res;
+                    return ret;
                 }
                 iterator_type   _get_predecessor(iterator_type node)
                 {
@@ -64,7 +65,7 @@ namespace ft
                 }            
             public:
                 explicit map_iterator(iterator_type ptr = NULL): _ptr(NULL) {}
-                map_iterator(const map_iterator& other) {*this = othe}
+                map_iterator(const map_iterator& other) {*this = other;}
                 ~map_iterator() {}
                 template <class Iter>
                     map_iterator&   operator=(const Iter& other)
@@ -74,8 +75,8 @@ namespace ft
                         return *this;
                     }
                 iterator_type   base() {return _ptr;}
-                const iterator_type base() const {return _ptr;}
-                reference   operator*() const {_ptr->value};
+                iterator_type base() const {return _ptr;}
+                reference   operator*() const {_ptr->value;}
                 pointer     operator->() const {return &(_ptr->value);}
                 map_iterator&   operator++()
                 {
@@ -132,19 +133,19 @@ namespace ft
                     if (node->right)
                     {
                         ret = node->right;
-                        while (res->left)
-                            res = res->left;
+                        while (ret->left)
+                            ret = ret->left;
                     }
                     else
                     {
-                        res = node->parent;
-                        while (res && !node->is_left)
+                        ret = node->parent;
+                        while (ret && !node->is_left)
                         {
-                            node = res;
-                            res = res->parent;
+                            node = ret;
+                            ret = ret->parent;
                         }
                     }
-                    return res;
+                    return ret;
                 }
                 iterator_type   _get_predecessor(iterator_type node)
                 {
@@ -171,7 +172,7 @@ namespace ft
                 }            
             public:
                 explicit const_map_iterator(iterator_type ptr = NULL): _ptr(NULL) {}
-                const_map_iterator(const const_map_iterator& other) {*this = othe}
+                const_map_iterator(const const_map_iterator& other) {*this = other;}
                 ~const_map_iterator() {}
                 template <class Iter>
                     const_map_iterator&   operator=(const Iter& other)
@@ -181,8 +182,8 @@ namespace ft
                         return *this;
                     }
                 iterator_type   base() {return _ptr;}
-                const iterator_type base() const {return _ptr;}
-                reference   operator*() const {_ptr->value};
+                iterator_type base() const {return _ptr;}
+                reference   operator*() const {_ptr->value;}
                 pointer     operator->() const {return &(_ptr->value);}
                 const_map_iterator&   operator++()
                 {
