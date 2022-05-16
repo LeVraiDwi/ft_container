@@ -13,6 +13,7 @@ HEADER_PATH = ./include
 HEADER_NAME = 	iterator.hpp iteratorVector.hpp reverseIterator.hpp\
 				vector.hpp algo.hpp pair.hpp\
 				map.hpp mapIterator.hpp tree.hpp\
+				stack.hpp\
 
 OBJS = ${SRCS:.cpp=.o}
 

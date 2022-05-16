@@ -3,6 +3,7 @@
 #include <deque>
 #include "vector.hpp"
 #include "map.hpp"
+#include "stack.hpp"
 #include <stdlib.h>
 /*#if 1 //CREATE A REAL STL EXAMPLE
 	#include <map>
