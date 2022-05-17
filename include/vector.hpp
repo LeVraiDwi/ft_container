@@ -55,9 +55,9 @@ namespace ft
         //====================Menber Functions=======================//
         public:
         //Constructeur//
-            vector(): _arr(NULL), _size(0), _capacity(0) { }
-            explicit vector (const allocator_type& alloc = allocator_type()): _arr(NULL), _size(0), _capacity(0) { _alloc = alloc;}
-            explicit vector (size_type n, const value_type& val = value_type(),
+           // vector(): _arr(NULL), _size(0), _capacity(0) { }
+            explicit vector(const allocator_type& alloc = allocator_type()): _arr(NULL), _size(0), _capacity(0) { _alloc = alloc;}
+            explicit vector(size_type n, const value_type& val = value_type(),
                 const allocator_type& alloc = allocator_type()): _size(n), _capacity(n), _alloc(alloc)
             {
                 _arr = _alloc.allocate(_capacity);
@@ -299,7 +299,7 @@ namespace ft
     template<class T, class Alloc>
         bool    operator<(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
-            return (ft::lexicographical_compare(lhs.begin(), lhs.end9), rhs.begin(), rhs.end());
+            return (ft::lexicographical_compare(lhs.begin(), lhs.end()), rhs.begin(), rhs.end());
         }
     template<class T, class Alloc>
         bool    operator<=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)

@@ -25,7 +25,7 @@ namespace ft
                 typedef typename allocator_type::pointer pointer;
                 typedef typename allocator_type::const_pointer const_pointer;
                 typedef typename allocator_type::size_type size_type;
-                typedef typename allocator_type::different_type different_type;
+                typedef typename allocator_type::difference_type different_type;
                 typedef Node<value_type>* node_ptr;
                 typedef Node<value_type> node;
                 typedef ft::map_iterator<value_type> iterator;
@@ -458,9 +458,9 @@ namespace ft
                                 if (tmp->parent != NULL)
                                 {
                                     tmp->left->parent = NULL;
-                                    if (root->parent->right = tmp)
+                                    if (root->parent->right == tmp)
                                         tmp->parent->right = tmp->left;
-                                    if (tmp->parent->left = tmp)
+                                    if (tmp->parent->left == tmp)
                                         tmp->parent->left = tmp->left;
                                 }
                                 else
@@ -479,7 +479,7 @@ namespace ft
                                 _node_allocator.destroy(tmp);
                                 _node_allocator.deallocate(tmp, 1);
                             }
-                            size--;
+                            _size--;
                             return;
                             
                         }
@@ -508,7 +508,7 @@ namespace ft
                         iterator tmp;
                         next = first->first;
                         first = find(next);
-                        while (first = end() && first->first != last_key)
+                        while (first != end() && first->first != last_key)
                         {
                             tmp = first;
                             tmp++;
@@ -564,7 +564,7 @@ namespace ft
                         
                         for (it = begin(); it != it2; it++)
                         {
-                            if (it->first == key || _comp(it->first, key) = false)
+                            if (it->first == key || _comp(it->first, key) == false)
                                 return it;
                         }
                         return it;
@@ -577,7 +577,7 @@ namespace ft
                         
                         for (it = begin(); it != it2; it++)
                         {
-                            if (it->first == key || _comp(it->first, key) = false)
+                            if (it->first == key || _comp(it->first, key) == false)
                                 return it;
                         }
                         return it;

@@ -64,7 +64,7 @@ namespace ft
                     return res;
                 }            
             public:
-                explicit map_iterator(iterator_type ptr = NULL): _ptr(NULL) {}
+                explicit map_iterator(iterator_type ptr = NULL): _ptr(ptr) {}
                 map_iterator(const map_iterator& other) {*this = other;}
                 ~map_iterator() {}
                 template <class Iter>
