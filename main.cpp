@@ -1,24 +1,22 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#include "vector.hpp"
-#include "map.hpp"
-#include "stack.hpp"
 #include <stdlib.h>
-/*#if 1 //CREATE A REAL STL EXAMPLE
+
+#if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
 	namespace ft = std;
 #else
-	#include <map.hpp>
-	#include <stack.hpp>*/
-	#include <vector.hpp>
-//#endif
+	#include "map.hpp"
+	#include "stack.hpp"
+	#include "vector.hpp"
+#endif
 
 #include <stdlib.h>
 
-/*#define MAX_RAM 4294967296
+#define MAX_RAM 4294967296
 #define BUFFER_SIZE 4096
 struct Buffer
 {
@@ -66,6 +64,7 @@ int main(int argc, char** argv) {
 	ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
 	ft::map<int, int> map_int;
 
+	std::cout << COUNT << std::endl;
 	for (int i = 0; i < COUNT; i++)
 	{
 		vector_buffer.push_back(Buffer());
@@ -77,6 +76,8 @@ int main(int argc, char** argv) {
 		vector_buffer[idx].idx = 5;
 	}
 	ft::vector<Buffer>().swap(vector_buffer);
+
+	std::cout << "2" << std::endl;
 
 	try
 	{
@@ -91,11 +92,16 @@ int main(int argc, char** argv) {
 	{
 		//NORMAL ! :P
 	}
+
+	std::cout << "3" << std::endl;
+
 	
 	for (int i = 0; i < COUNT; ++i)
 	{
 		map_int.insert(ft::make_pair(rand(), rand()));
 	}
+
+	std::cout << "4" << std::endl;
 
 	int sum = 0;
 	for (int i = 0; i < 10000; i++)
@@ -103,6 +109,8 @@ int main(int argc, char** argv) {
 		int access = rand();
 		sum += map_int[access];
 	}
+
+	std::cout << "5" << std::endl;
 	std::cout << "should be constant with the same seed: " << sum << std::endl;
 
 	{
@@ -117,18 +125,4 @@ int main(int argc, char** argv) {
 	}
 	std::cout << std::endl;
 	return (0);
-}*/
-
-int main()
-{
-	int	tab[5] = {
-		5,
-		4,
-		3,
-		2,
-		1,
-	};
-	ft::vector<int> vector_int(tab, tab + 5);
-	std::cout << vector_int[1] << std::endl;
-	return 0;
 }

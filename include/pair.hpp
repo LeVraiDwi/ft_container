@@ -5,23 +5,24 @@ namespace ft
     template <class T1, class T2>
         struct pair
         {
-            typedef T1 first_type;
-            typedef T2 second_type;
+            public:
+                typedef T1 first_type;
+                typedef T2 second_type;
 
-            T1  first;
-            T2  second;
+                first_type  first;
+                second_type  second;
 
-            pair(): first(), second() {}
-            pair(const first_type& a, const second_type& b): first(a), second (b) {}
-            template<class U, class V>
-                pair(const pair<U,V>& pr) {*this = pr;}
+                pair(): first(T1()), second(T2()) {}
+                pair(const first_type& a, const second_type& b): first(a), second(b) {}
+                template<class U, class V>
+                    pair(const pair<U,V>& pr): first(pr.first), second(pr.second) {}
             
-            pair& operator=(const pair& pr)
-            {
-                this->first = pr.first;
-                this->second = pr.second;
-                return *this;
-            }
+                pair& operator=(const pair& pr)
+                {
+                    this->first = pr.first;
+                    this->second = pr.second;
+                    return *this;
+                }
         };
     //operator//
     template <class T1, class T2>
@@ -56,9 +57,9 @@ namespace ft
         }
     //make pair//
     template <class T1,class T2>
-        pair<T1,T2> make_pair (T1 x, T2 y)
+        pair<T1,T2> make_pair(T1 x, T2 y)
         {
-            return ( pair<T1,T2>(x,y) );
+            return pair<T1,T2>(x,y);
         }
 }
 #endif

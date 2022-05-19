@@ -1,6 +1,7 @@
 #ifndef MAPITERATOR_HPP
 # define MAPITERATOR_HPP
 # include "iterator.hpp"
+# include "tree.hpp"
 
 namespace ft
 {
@@ -10,7 +11,7 @@ namespace ft
             public:
                 typedef Node*   iterator_type;
                 typedef Node    iterator_value;
-                typedef typename iterator_value::value_type value_type;
+                typedef typename Node::value_type value_type;
                 typedef value_type& reference;
                 typedef value_type* pointer;
             
@@ -19,12 +20,14 @@ namespace ft
                 iterator_type   _get_successor(iterator_type node)
                 {
                     iterator_type   ret;
-                    iterator_type   next;
+
+                    std::cout << "succe" << std::endl;
 
                     if (!node)
                         return (NULL);
                     if (node->right)
                     {
+                        std::cout << "succe r" << std::endl;
                         ret = node->right;
                         while (ret->left)
                             ret = ret->left;
@@ -32,7 +35,8 @@ namespace ft
                     else
                     {
                         ret = node->parent;
-                        while (ret && !node->left)
+                        std::cout << "succe l" << std::endl;
+                        while (ret && !_is_left(node))
                         {
                             node = ret;
                             ret = ret->parent;
@@ -55,14 +59,37 @@ namespace ft
                     else
                     {
                         res = node->parent;
-                        while (res && node->left)
+                        while (res && _is_left(node))
                         {
                             node = res;
                             res = res->parent;
                         }
                     }
                     return res;
-                }            
+                }
+                bool    _is_left(iterator_type node)
+                {
+                    iterator_type   next;
+
+                    if (!node->left)
+                        return false;
+                    next = node->left;
+                    if (next->is_init)
+                        return true;
+                    return false;
+                }
+                bool    _is_right(iterator_type node)
+                {
+                    iterator_type   next;
+
+                    if (!node->right)
+                        return false;
+                    next = node->right;
+                    if (next->is_init)
+                        return true;
+                    return false;
+                }
+
             public:
                 explicit map_iterator(iterator_type ptr = NULL): _ptr(ptr) {}
                 map_iterator(const map_iterator& other) {*this = other;}
@@ -76,11 +103,13 @@ namespace ft
                     }
                 iterator_type   base() {return _ptr;}
                 iterator_type base() const {return _ptr;}
-                reference   operator*() const {_ptr->value;}
-                pointer     operator->() const {return &(_ptr->value);}
+                reference   operator*() const {return _ptr->pair;}
+                pointer     operator->() const {return &(_ptr->pair);}
                 map_iterator&   operator++()
                 {
+                    std::cout << "++" << std::endl;
                     _ptr = _get_successor(_ptr);
+                    std::cout << "++ end" << std::endl;
                     return (*this);
                 }
                 map_iterator    operator++(int)
@@ -124,7 +153,7 @@ namespace ft
             
             private:
                 iterator_type   _ptr;
-                iterator_type   _get_successor(iterator_type node)
+               iterator_type   _get_successor(iterator_type node)
                 {
                     iterator_type   ret;
 
@@ -139,7 +168,7 @@ namespace ft
                     else
                     {
                         ret = node->parent;
-                        while (ret && !node->left)
+                        while (ret && !_is_left(node))
                         {
                             node = ret;
                             ret = ret->parent;
@@ -162,16 +191,39 @@ namespace ft
                     else
                     {
                         res = node->parent;
-                        while (res && node->left)
+                        while (res && _is_left(node))
                         {
                             node = res;
                             res = res->parent;
                         }
                     }
                     return res;
-                }            
+                }
+                bool    _is_left(iterator_type node)
+                {
+                    iterator_type   next;
+
+                    if (!node->left)
+                        return false;
+                    next = node->left;
+                    if (next->is_init)
+                        return true;
+                    return false;
+                }
+                bool    _is_right(iterator_type node)
+                {
+                    iterator_type   next;
+
+                    if (!node->right)
+                        return false;
+                    next = node->right;
+                    if (next->is_init)
+                        return true;
+                    return false;
+                }
+
             public:
-                explicit const_map_iterator(iterator_type ptr = NULL): _ptr(NULL) {}
+                explicit const_map_iterator(iterator_type ptr = NULL): _ptr(ptr) {}
                 const_map_iterator(const const_map_iterator& other) {*this = other;}
                 ~const_map_iterator() {}
                 template <class Iter>

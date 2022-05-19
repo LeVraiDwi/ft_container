@@ -6,6 +6,7 @@
 # include "iterator.hpp"
 # include "mapIterator.hpp"
 # include "reverseIterator.hpp"
+# include "algo.hpp"
 # include "tree.hpp"
 
 namespace ft
@@ -28,8 +29,8 @@ namespace ft
                 typedef typename allocator_type::difference_type different_type;
                 typedef Node<value_type>* node_ptr;
                 typedef Node<value_type> node;
-                typedef ft::map_iterator<value_type> iterator;
-                typedef ft::const_map_iterator<value_type > const_iterator;
+                typedef ft::map_iterator<node> iterator;
+                typedef ft::const_map_iterator<node> const_iterator;
                 typedef ft::reverseIterator<iterator> reverse_iterator;
                 typedef ft::reverseIterator<const_iterator> const_reverse_iterator;
 
@@ -43,10 +44,13 @@ namespace ft
                         key_compare comp;
                         value_compare(key_compare c): comp(c) {}
                     public:
-                        bool operator() (const value_type& x, const value_type& y) const
-                        {
-                            return (comp(x.first, y.first));
-                        }
+                        typedef bool result_type;
+					    typedef value_type first_argument_type;
+					    typedef value_type second_argument_type;
+					    bool operator() (const value_type& x, const value_type& y) const
+					    {
+						    return _comp(x.first, y.first);
+					    }
                 };
 
             protected:
@@ -55,7 +59,7 @@ namespace ft
                 node_allocator  _node_allocator;
                 size_type   _size;
                 key_compare _comp;
-                node        _end;
+                node_ptr        _end;
 
             public:
                 explicit map(const key_compare& key = key_compare(), const allocator_type& alloc = allocator_type()): _allocator(alloc), _node_allocator(), _comp(key)
@@ -93,7 +97,7 @@ namespace ft
 
                 ~map()
                 {
-                    this->clear;
+                    this->clear();
                     _node_allocator.destroy(_end);
                     _node_allocator.deallocate(_end, 1);
                     _node_allocator.destroy(root);
@@ -102,16 +106,16 @@ namespace ft
 
                 map& operator=(const map& copy)
                 {
-                    this->cleat();
+                    this->clear();
                     _size = 0;
                     const_iterator it = copy.begin();
-                    const_iterator end = copy.end;
+                    const_iterator end = copy.end();
                     root->right = _end;
                     _end->is_end = true;
                     _end->parent = root;
                     while (it != end)
                     {
-                        insert(it.ptr->pair);
+                        insert(it.base()->pair);
                         it++;
                     }
                     this->_comp = copy._comp;
@@ -152,6 +156,7 @@ namespace ft
 
                 iterator    end()
                 {
+                    std::cout << "end" << std::endl;
                     return iterator(_end);
                 }
                 const_iterator    end() const
@@ -171,15 +176,17 @@ namespace ft
             //insert//
                 ft::pair<iterator, bool> insert(const value_type& val)
                 {
+                    std::cout << "5 beg" << std::endl;
                     static int  x;
 
                     x++;
                     if (_size == 0)
                     {
-                        _allocator.contruct(&root->pair, val);
+                        std::cout << "5 1" << std::endl;
+                        _allocator.construct(&root->pair, val);
                         root->is_init = true;
                         _size++;
-
+                        std::cout << "5 end" << std::endl;
                         return ft::make_pair<iterator, bool>(begin(), true);
                     }
                     node_ptr    new_node;
@@ -191,25 +198,35 @@ namespace ft
                     it = begin();
 
                     while (it != end() && _comp(it->first, val.first) == true)
-                        it++;
-                    if (it._ptr->is_init && (*it).first == val.first)
                     {
+                        std::cout << "aille" <<std::endl;
+                        it++;
+                        std::cout << it->first <<std::endl;
+                    }
+                    std::cout << "5 2" << std::endl;
+                    if (it.base()->is_init && (*it).first == val.first)
+                    {
+                        std::cout << "5 2" << std::endl;
                         iterator tmp = it;
                         _node_allocator.destroy(new_node);
                         _node_allocator.deallocate(new_node, 1);
+                        std::cout << "5 end" << std::endl;
                         return ft::make_pair<iterator, bool>(tmp, false);
                     }
                     _size++;
-                    if (it.ptr->left == NULL)
+                    if (it.base()->left == NULL)
                     {
-                        it.ptr->left = new_node;
-                        new_node->parent = it.ptr;
+                        std::cout << "5 3" << std::endl;
+                        it.base()->left = new_node;
+                        new_node->parent = it.base();
                         new_node->is_init = true;
+                        std::cout << "5 end" << std::endl;
                         return ft::make_pair<iterator, bool>(find(val.first), true);
                     }
                     else
                     {
-                        node_ptr    tmp = it.ptr->left;
+                        std::cout << "5 4" << std::endl;
+                        node_ptr    tmp = it.base()->left;
                         
                         while (tmp->right != NULL)
                             tmp->right = tmp->right;
@@ -217,8 +234,11 @@ namespace ft
                         new_node->parent = tmp;
                         new_node->is_init = true;
                         it--;
+                        std::cout << "5 end" << std::endl;
                         return ft::make_pair<iterator, bool>(find(val.first), true);
                     }
+                    std::cout << "5 end" << std::endl;
+
                 }
 
                 template<class InputIterator>
@@ -492,7 +512,7 @@ namespace ft
                                 next = it;
                                 next--;
                             }
-                            tmp = it.ptr;
+                            tmp = it.base();
                             _node_allocator.destroy(&tmp->pair);
                             _node_allocator.deallocate(&tmp->pair, next.ptr->pair);
                             erase(next);
@@ -624,7 +644,7 @@ namespace ft
 
                     mapped_type&    operator[](const key_type& k)
                     {
-                        return (*((this->insert(value_type(k, mapped_type()))))).second;
+                        return (*((this->insert(value_type(k,mapped_type()))).first)).second;
                     }
 
                     void    swap(map& src)
