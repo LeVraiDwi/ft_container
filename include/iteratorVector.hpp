@@ -14,7 +14,7 @@ namespace ft
                 typedef typename    ft::iterator_traits<iterator_type>::reference       reference;
                 typedef typename    ft::iterator_traits<iterator_type>::pointer         pointer;
                 typedef typename    ft::iterator_traits<iterator_type>::difference_type difference_type;
-                typedef typename    ft::iterator_traits<iterator_type>::iterator_type   iterator_category;
+                typedef typename    ft::iterator_traits<iterator_type>::iterator_category  iterator_category;
             private:
                 iterator_type   _ptr;
             //Menber Function//
@@ -44,7 +44,7 @@ namespace ft
                 }
                 vector_iterator&    operator++(int)
                 {
-                    vector_iterator tmp = *this;
+                    vector_iterator& tmp = *this;
 
                     _ptr++;
                     return (tmp);

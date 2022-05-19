@@ -1,24 +1,22 @@
 #include <iostream>
 #include <string>
 #include <deque>
-#include "vector.hpp"
-#include "map.hpp"
-#include "stack.hpp"
 #include <stdlib.h>
-/*#if 1 //CREATE A REAL STL EXAMPLE
+
+#if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
 	#include <stack>
 	#include <vector>
 	namespace ft = std;
 #else
-	#include <map.hpp>
-	#include <stack.hpp>*/
-	#include <vector.hpp>
-//#endif
+	#include "map.hpp"
+	#include "stack.hpp"
+	#include "vector.hpp"
+#endif
 
 #include <stdlib.h>
 
-/*#define MAX_RAM 4294967296
+#define MAX_RAM 4294967296
 #define BUFFER_SIZE 4096
 struct Buffer
 {
@@ -117,18 +115,4 @@ int main(int argc, char** argv) {
 	}
 	std::cout << std::endl;
 	return (0);
-}*/
-
-int main()
-{
-	int	tab[5] = {
-		5,
-		4,
-		3,
-		2,
-		1,
-	};
-	ft::vector<int> vector_int(tab, tab + 5);
-	std::cout << vector_int[1] << std::endl;
-	return 0;
 }

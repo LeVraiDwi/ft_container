@@ -16,53 +16,52 @@ namespace ft
             
             private:
                 iterator_type   _ptr;
-                iterator_type   _get_successor(iterator_type node)
-                {
-                    iterator_type   ret;
-                    iterator_type   next;
+                iterator_type	_get_successor(iterator_type node)
+			{
+				iterator_type	res;
 
-                    if (!node)
-                        return (NULL);
-                    if (node->right)
-                    {
-                        ret = node->right;
-                        while (ret->left)
-                            ret = ret->left;
-                    }
-                    else
-                    {
-                        ret = node->parent;
-                        while (ret && !node->left)
-                        {
-                            node = ret;
-                            ret = ret->parent;
-                        }
-                    }
-                    return ret;
-                }
-                iterator_type   _get_predecessor(iterator_type node)
-                {
-                    iterator_type res;
+				if (!node)
+					return (NULL);
+				if (node->right)
+				{
+					res = node->right;
+					while (res->left)
+						res = res->left;
+				}
+				else
+				{
+					res = node->parent;
+					while (res && !node->is_left)
+					{
+						node = res;
+						res = res->parent;
+					}
+				}
+				return(res);
+			}
+			iterator_type	_get_predecessor(iterator_type node)
+			{
+				iterator_type	res;
 
-                    if (!node)
-                        return NULL;
-                    if (node->left)
-                    {
-                        res = node->left;
-                        while (res->right)
-                            res = res->right;
-                    }
-                    else
-                    {
-                        res = node->parent;
-                        while (res && node->left)
-                        {
-                            node = res;
-                            res = res->parent;
-                        }
-                    }
-                    return res;
-                }            
+				if (!node)
+					return (NULL);
+				if (node->left)
+				{
+					res = node->left;
+					while (res->right)
+						res = res->right;
+				}
+				else
+				{
+					res = node->parent;
+					while (res && node->is_left)
+					{
+						node = res;
+						res = res->parent;
+					}
+				}
+				return(res);
+			}           
             public:
                 explicit map_iterator(iterator_type ptr = NULL): _ptr(ptr) {}
                 map_iterator(const map_iterator& other) {*this = other;}
@@ -124,54 +123,54 @@ namespace ft
             
             private:
                 iterator_type   _ptr;
-                iterator_type   _get_successor(iterator_type node)
-                {
-                    iterator_type   ret;
+                iterator_type	_get_successor(iterator_type node)
+			{
+				iterator_type	res;
 
-                    if (!node)
-                        return (NULL);
-                    if (node->right)
-                    {
-                        ret = node->right;
-                        while (ret->left)
-                            ret = ret->left;
-                    }
-                    else
-                    {
-                        ret = node->parent;
-                        while (ret && !node->left)
-                        {
-                            node = ret;
-                            ret = ret->parent;
-                        }
-                    }
-                    return ret;
-                }
-                iterator_type   _get_predecessor(iterator_type node)
-                {
-                    iterator_type res;
+				if (!node)
+					return (NULL);
+				if (node->right)
+				{
+					res = node->right;
+					while (res->left)
+						res = res->left;
+				}
+				else
+				{
+					res = node->parent;
+					while (res && !node->is_left)
+					{
+						node = res;
+						res = res->parent;
+					}
+				}
+				return(res);
+			}
+			iterator_type	_get_predecessor(iterator_type node)
+			{
+				iterator_type	res;
 
-                    if (!node)
-                        return NULL;
-                    if (node->left)
-                    {
-                        res = node->left;
-                        while (res->right)
-                            res = res->right;
-                    }
-                    else
-                    {
-                        res = node->parent;
-                        while (res && node->left)
-                        {
-                            node = res;
-                            res = res->parent;
-                        }
-                    }
-                    return res;
-                }            
+				if (!node)
+					return (NULL);
+				if (node->left)
+				{
+					res = node->left;
+					while (res->right)
+						res = res->right;
+				}
+				else
+				{
+					res = node->parent;
+					while (res && node->is_left)
+					{
+						node = res;
+						res = res->parent;
+					}
+				}
+				return(res);
+			}
             public:
-                explicit const_map_iterator(iterator_type ptr = NULL): _ptr(NULL) {}
+                explicit const_map_iterator(iterator_type ptr = NULL): _ptr(ptr) {}
                 const_map_iterator(const const_map_iterator& other) {*this = other;}
                 ~const_map_iterator() {}
                 template <class Iter>

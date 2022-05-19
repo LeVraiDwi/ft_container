@@ -178,7 +178,7 @@ namespace ft
                     _arr = new_arr;
                 }
                 else if (_size > count)
-                    for (size_type i = _size - 1; i >= (int)count; i--)
+                    for (size_type i = _size - 1; i >= count; i--)
                         _alloc.destroy(_arr + i);
                 else
                     for (size_type i = _size; i < count; i++)
@@ -265,7 +265,7 @@ namespace ft
 	    			other._capacity = capacity_tmp;
 	    			other._arr = arr_tmp;
                 }
-                void push_back(const_reference value) {resize(1, value);}
+                void push_back(const_reference value) {resize(_size + 1, value);}
                 void pop_back() 
                 {
                     if (!_size)

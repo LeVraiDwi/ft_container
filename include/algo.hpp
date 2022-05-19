@@ -50,7 +50,7 @@ namespace ft
         {
             for (InputIterator1 it = first1; it != last1; it++)
             {
-                if (*it != first2)
+                if (it != first2)
                     return false;
                 first2++;
             }
