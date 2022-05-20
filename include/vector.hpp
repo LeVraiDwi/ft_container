@@ -51,6 +51,13 @@ namespace ft
                     }
                     return (res);
                 }
+
+            size_type	linux_capacity_caclulator(size_type n)
+			{
+				if (n <= _size * 2)
+					return (_size * 2);
+				return (n);
+			}
         //==========================================================//
         //====================Menber Functions=======================//
         public:
@@ -168,8 +175,7 @@ namespace ft
                 {
                     if (!_capacity)
                         _capacity = count;
-                    while (_capacity < count)
-                        _capacity *= 2;
+                    _capacity = linux_capacity_caclulator(count);
                     new_arr = _alloc.allocate(_capacity);
                     for (size_type i = 0; i < _size; i++)
                         _alloc.construct(new_arr + i, _arr[i]);
