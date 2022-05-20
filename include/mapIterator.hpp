@@ -1,6 +1,7 @@
 #ifndef MAPITERATOR_HPP
 # define MAPITERATOR_HPP
 # include "iterator.hpp"
+# include "tree.hpp"
 
 namespace ft
 {
@@ -69,7 +70,7 @@ namespace ft
                 template <class Iter>
                     map_iterator&   operator=(const Iter& other)
                     {
-                        if (this != other)
+                        if (*this != other)
                             _ptr = other.base();
                         return *this;
                     }
@@ -111,19 +112,20 @@ namespace ft
                 }
         };
 
-    template <class Node>
-        class const_map_iterator: public ft::iterator<bidirectional_iterator_tag, Node>
-        {
-            public:
-                typedef Node*   iterator_type;
-                typedef Node    iterator_value;
-                typedef typename iterator_value::value_type value_type;
-                typedef value_type& reference;
-                typedef value_type* pointer;
-            
-            private:
-                iterator_type   _ptr;
-                iterator_type	_get_successor(iterator_type node)
+     template < class Node>
+	class const_map_iterator: public ft::iterator<bidirectional_iterator_tag, Node>
+	{
+		public:
+			typedef Node*										iterator_type;
+			typedef Node										iterator_value;
+			typedef const typename iterator_value::value_type	value_type;
+			typedef value_type&									reference;
+			typedef value_type*									pointer;
+
+		private:
+			iterator_type	_ptr;
+
+			iterator_type	_get_successor(iterator_type node)
 			{
 				iterator_type	res;
 
@@ -169,55 +171,72 @@ namespace ft
 				}
 				return(res);
 			}
-            public:
-                explicit const_map_iterator(iterator_type ptr = NULL): _ptr(ptr) {}
-                template<class Iter>
-                    const_map_iterator(const Iter& other) {*this = other;}
-                ~const_map_iterator() {}
-                template <class Iter>
-                    const_map_iterator&   operator=(const Iter& other)
-                    {
-                        if (*this != other)
-                            _ptr = other.base();
-                        return *this;
-                    }
-                iterator_type   base() {return _ptr;}
-                iterator_type base() const {return _ptr;}
-                reference   operator*() const {return _ptr->value;}
-                pointer     operator->() const {return &(_ptr->value);}
-                const_map_iterator&   operator++()
-                {
-                    _ptr = _get_successor(_ptr);
-                    return (*this);
-                }
-                const_map_iterator    operator++(int)
-                {
-                    const_map_iterator    tmp(*this);
+		public:
+			explicit const_map_iterator(iterator_type ptr = NULL): _ptr(ptr) { }
+			~const_map_iterator() { }
 
-                    ++*this;
-                    return tmp;
-                }
-                const_map_iterator&   operator--()
-                {
-                    _ptr = _get_predecessor(_ptr);
-                    return *this;
-                }
-                const_map_iterator    operator--(int)
-                {
-                    const_map_iterator    tmp(*this);
+			template<class Iter>
+				const_map_iterator(const Iter& other) { *this = other; }
 
-                    --*this;
-                    return tmp;
-                }
-                bool    operator==(const const_map_iterator& rhs)
-                {
-                    return _ptr == rhs._ptr;
-                }
-                bool    operator!=(const const_map_iterator& rhs)
-                {
-                    return _ptr != rhs._ptr;
-                }
-        };
+			template<class Iter>
+				const_map_iterator&	operator=(const Iter& other)
+				{
+					_ptr = other.base();
+					return (*this);
+				}
+
+			iterator_type	base()
+			{
+				return (_ptr);
+			}
+			const iterator_type	base() const
+			{
+				return (_ptr);
+			}
+
+
+			reference	operator*() const
+			{
+				return (_ptr->value);
+			}
+			pointer		operator->() const
+			{
+				return (&(_ptr->value));
+			}
+
+			const_map_iterator&	operator++()
+			{
+				_ptr = _get_successor(_ptr);
+				return (*this);
+			}
+			const_map_iterator	operator++(int)
+			{
+				const_map_iterator	tmp(*this);
+				++*this;
+				return (tmp);
+			}
+	
+			const_map_iterator&	operator--()
+			{
+				_ptr = _get_predecessor(_ptr);
+				return (*this);
+			}
+			const_map_iterator	operator--(int)
+			{
+				const_map_iterator	tmp(*this);
+				--*this;
+				return (tmp);
+			}
+
+			bool	operator==(const const_map_iterator &rhs)
+			{
+				return (_ptr == rhs._ptr);
+			}
+			bool	operator!=(const const_map_iterator &rhs)
+			{
+				return (_ptr != rhs._ptr);
+			}
+	};
 } // namespace ft
 
 #endif

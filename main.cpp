@@ -20,6 +20,8 @@
 
 #include <stdlib.h>
 
+using namespace ft;
+
 #define MAX_RAM 4294967296
 #define BUFFER_SIZE 4096
 struct Buffer
@@ -27,8 +29,6 @@ struct Buffer
 	int idx;
 	char buff[BUFFER_SIZE];
 };
-
-using namespace ft;
 
 #define COUNT (MAX_RAM / (int)sizeof(Buffer))
 
@@ -142,9 +142,112 @@ void    vector_basiques(){
         std::cout << (v3 == v4) << (v3 != v4) << (v3 <= v4) << (v3 < v4) << (v3 >= v4) << (v3 > v4) << std::endl;
 }
 
+void    map_basiques(){
+        #define K int
+        #define M int
+//CONSTRUCTORS
+	std::cout << "const" << std::endl;
+        map<K,M> m;
+        m[-34] = 1;
+        m[0345] = 12;
+        m[654] = -24;
+        m[234] = 53;
+        map<K,M> n(m);
+        map<K,M> o = n;
+//ITERATORS
+	std::cout << "itera" << std::endl;
+        for (map<K,M>::iterator it = m.begin(); it != m.end(); it++)
+                it->second = 0;
+	std::cout << "itera" << std::endl;
+        for (map<K,M>::const_iterator it = m.begin(); it != m.end(); it++)
+                std::cout << it->first << ":" << it->second << " ";
+        std::cout << std::endl;
+		std::cout << "itera" << std::endl;
+        int i = 9;
+        for (map<K,M>::reverse_iterator it = m.rbegin(); it != m.rend(); it++)
+                it->second = i++;
+	std::cout << "itera" << std::endl;
+        for (map<K,M>::const_reverse_iterator it = m.rbegin(); it != m.rend(); it++)
+                std::cout << it->first << ":" << it->second << " ";
+    std::cout << std::endl;
+//CAPACITY
+std::cout << "capa" << std::endl;
+        std::cout << m.empty() << m.size() << m.max_size() << std::endl;
+//ELEMENT_ACCESS
+std::cout << "elemen" << std::endl;
+        printMap(m);
+        std::cout << m[14];
+        printMap(m);
+        std::cout << m[229] << std::endl;
+//MODIFIERS
+std::cout << "modif" << std::endl;
+        m.insert(make_pair(35,54));
+        printMap(m);
+        map<K,M>::iterator hh = m.begin();
+        hh++;
+        m.insert(hh, make_pair(-200,-200));
+        m.insert(n.begin(), n.end());
+        for (int i = 0; i < 4; i++)
+                n.insert(make_pair(i, i));
+        m.insert(n.begin(), n.end());
+        printMap(m);
+        m.erase(m.begin());
+        m.erase(1);
+        printMap(m);
+        m.clear();
+        for (int i = 0; i < 12; i++){
+                m.insert(make_pair(i*5,i*5));
+                n.insert(make_pair(i,i));
+        }
+        m.swap(n);
+        printMap(m);
+        printMap(n);
+//OPERATIONS
+std::cout << "opera" << std::endl;
+        std::cout << m.find(5)->second << m.count(5) << m.count(43) << std::endl;
+        std::cout << m.lower_bound(30)->second << m.upper_bound(30)->second << std::endl;
+}
+
+void    map_en_details(){
+        #define AK int
+        #define AM char
+        map<AK,AM>m;
+        for (int i = 0; i < 7; i++){
+                m[i*5] = 'a' + i;
+        }
+        m.insert(make_pair(15, 'z'));
+        m.insert(make_pair(25, 'y'));
+        m[10] = 'G';
+        m.insert(make_pair(-10, 'z'));
+        printMap(m);
+        map<AK,AM>::reverse_iterator it = m.rbegin();
+        it++;
+        it++;
+        std::cout << m.size() << std::endl;
+        std::cout << it->first << std::endl;
+        m.insert(make_pair(3, '$'));
+        printMap(m);
+        std::cout << it->first << std::endl;
+        // std::cout << "HERE";
+        m.erase('3');
+        printMap(m);
+        std::cout << it->first << std::endl;
+        map<AK,AM> n;
+        for (int i = 0; i < 4; i++){
+                n[i*3] = 'A' + i;
+        }
+        map<AK,AM>::iterator it2 = n.begin();
+        n.swap(m);
+        std::cout << it2->first << std::endl;
+        printMap(m);
+        printMap(n);
+}
+
 int main(/*int argc, char** argv*/) {
 
-	vector_basiques();
+	//map_en_details();
+	map_basiques();
+	//vector_basiques();
 	/*if (argc != 2)
 	{
 		std::cerr << "Usage: ./test seed" << std::endl;
