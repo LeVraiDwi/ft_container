@@ -1,6 +1,7 @@
 #ifndef STACK_HPP
 # define STACK_HPP
 # include "vector.hpp"
+# include "algo.hpp"
 
 namespace ft
 {

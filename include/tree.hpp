@@ -141,12 +141,12 @@ namespace ft
                             node_ptr    _end_tmp = this->_end;
                             node_ptr    _root_tmp = this->_root;
                             size_type   _size_tmp = _size;
-                            key_compare _cmp_tmp = this->cmp;
-                            allocator_type  _alloc_tmp = this->alloc;
+                            key_compare _cmp_tmp = this->_cmp;
+                            allocator_type  _alloc_tmp = this->_alloc;
 
                             this->_end = other._end;
                             this->_root = other._root;
-                            this->_size = other.size;
+                            this->_size = other._size;
                             this->_cmp = other._cmp;
                             this->_alloc = other._alloc;
                             other._end = _end_tmp;
@@ -210,7 +210,7 @@ namespace ft
                             node_to_delete = exist(key);
                             if (!node_to_delete)
                                 return;
-                            else if (!_size == 1)
+                            else if (!(_size == 1))
                                 _root = NULL;
                             else
                             {
@@ -520,7 +520,7 @@ namespace ft
                             _get_sibling(parent, is_left);
                         }
 
-                        void    _fixing_case_2(node_ptr parent, bool is_left)
+                        void    _fixup_case_2(node_ptr parent, bool is_left)
                         {
                             if (is_left)
                                 parent->right->color = RED;
@@ -534,7 +534,7 @@ namespace ft
                                 _get_sibling(parent->parent, parent->is_left);
                         }
 
-                        void    fixup_case_3(node_ptr parent, bool is_left)
+                        void    _fixup_case_3(node_ptr parent, bool is_left)
                         {
                             if (is_left)
                             {

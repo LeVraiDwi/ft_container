@@ -2,7 +2,7 @@ SRCS = $(addprefix $(SRC_PATH)/,$(SRC_NAME))
 
 HEADERS = $(addprefix $(HEADER_PATH)/,$(HEADER_NAME))
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++11
 
 SRC_PATH = ./
 

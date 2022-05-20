@@ -56,9 +56,9 @@ namespace ft
                 }
                 vector_iterator&    operator--(int)
                 {
-                    vector_iterator tmp = *this;
+                    vector_iterator& tmp = *this;
 
-                    _ptr++;
+                    _ptr--;
                     return tmp;
                 }
                 vector_iterator     operator+(difference_type n) {return vector_iterator(_ptr + n);}

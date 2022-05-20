@@ -40,7 +40,7 @@ namespace ft
             typedef random_access_iterator_tag  iterator_category; 
         };
 
-    template< class T >
+    /*template< class T >
         struct iterator_traits<const T*>
         {
             typedef std::ptrdiff_t                    difference_type;
@@ -48,6 +48,6 @@ namespace ft
             typedef const T*                    pointer;
             typedef T&                          reference;
             typedef random_access_iterator_tag  iterator_category; 
-        };
+        };*/
 }
 #endif

@@ -75,7 +75,7 @@ namespace ft
                     }
                 iterator_type   base() {return _ptr;}
                 iterator_type base() const {return _ptr;}
-                reference   operator*() const {_ptr->value;}
+                reference   operator*() const {return _ptr->value;}
                 pointer     operator->() const {return &(_ptr->value);}
                 map_iterator&   operator++()
                 {
@@ -171,18 +171,19 @@ namespace ft
 			}
             public:
                 explicit const_map_iterator(iterator_type ptr = NULL): _ptr(ptr) {}
-                const_map_iterator(const const_map_iterator& other) {*this = other;}
+                template<class Iter>
+                    const_map_iterator(const Iter& other) {*this = other;}
                 ~const_map_iterator() {}
                 template <class Iter>
                     const_map_iterator&   operator=(const Iter& other)
                     {
-                        if (this != other)
+                        if (*this != other)
                             _ptr = other.base();
                         return *this;
                     }
                 iterator_type   base() {return _ptr;}
                 iterator_type base() const {return _ptr;}
-                reference   operator*() const {_ptr->value;}
+                reference   operator*() const {return _ptr->value;}
                 pointer     operator->() const {return &(_ptr->value);}
                 const_map_iterator&   operator++()
                 {

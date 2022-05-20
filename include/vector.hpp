@@ -66,7 +66,8 @@ namespace ft
             }
             template <class InputIterator>
                 vector (InputIterator first, InputIterator last,
-                    const allocator_type& alloc = allocator_type()): _size(0), _alloc(alloc)
+                    const allocator_type& alloc = allocator_type(),
+                    typename ft::enable_if<!ft::is_integral<InputIterator>::value, bool>::type = true): _size(0), _alloc(alloc)
                 {
                     InputIterator   tmp = first;
                     while (tmp != last)
@@ -76,7 +77,7 @@ namespace ft
                     }
                     _capacity = _size;
                     _arr = _alloc.allocate(_capacity);
-                    for (size_type i = 0; i < _capacity; i++)
+                    for (size_type i = 0; first != last; i++)
                     {
                         _alloc.construct(_arr + i, *(first));
                         first++;
@@ -124,7 +125,7 @@ namespace ft
             }
             reference front() {return _arr[0];}
             const_reference front() const{return _arr[0];}
-            reference back() {return _arr[_size];}
+            reference back() {return _arr[_size - 1];}
             const_reference back() const {return _arr[_size];}
             pointer data() {return _arr;}
             const_pointer data() const {return _arr;}
@@ -172,13 +173,13 @@ namespace ft
                     new_arr = _alloc.allocate(_capacity);
                     for (size_type i = 0; i < _size; i++)
                         _alloc.construct(new_arr + i, _arr[i]);
-                    for (size_type i = _size; i < _capacity; i++)
+                    for (size_type i = _size; i < count; i++)
                         _alloc.construct(new_arr + i, value);
                     _delete(old_cap);
                     _arr = new_arr;
                 }
                 else if (_size > count)
-                    for (size_type i = _size - 1; i >= count; i--)
+                    for (int i = _size - 1; i >= (int)count; i--)
                         _alloc.destroy(_arr + i);
                 else
                     for (size_type i = _size; i < count; i++)
@@ -193,35 +194,39 @@ namespace ft
             void insert( iterator pos, size_type count, const_reference value )
             {
                 size_type   dst = _dist(begin(), pos);
-                iterator    old_end = end() - 1;
+                size_type    old_l = _dist(begin(), end());
+                iterator    old_end;
 
                 resize(_size + count);
-                for(iterator it = end() - 1; it != begin()+ (dst + count); it++)
+                old_end = begin() + old_l - 1;
+                for(iterator it = (end() - 1); it >= (begin() + dst + count); it--)
                 {
                     *it = *old_end;
                     old_end--;
                 }
-                for (iterator it = begin() + dst; it != begin() + (dst + count); it++)
-                    it = value;
+                for (iterator it = begin() + dst; it != (begin() + dst + count); it++)
+                    *it = value;
             }
             template< class InputIt >
                 void insert(iterator pos, InputIt first, InputIt last)
                 {
                     size_type   dst = _dist(begin(), pos);
                     size_type   distance = _dist(first, last);
-                    iterator    old_end = end() - 1;
+                    iterator    old_end;
+                    size_type   old_l = _dist(begin(), end());
                     value_type  values[distance];
 
                     resize(_size + distance);
+                    old_end = begin() + old_l - 1;
                     for(size_type i = 0; first != last; i++)
                     {
                         values[i] = *first;
                         first++;
                     }
-                    for (iterator it = end() - 1; it >= begin() + dst + distance; it--)
+                    for (iterator it = (end() - 1); it >= (begin() + dst + distance); it--)
                     {
                         *it = *old_end;
-                        old_end++;
+                        old_end--;
                     }
                     for(size_type i = 0; i < distance; i++)
                         *(begin() + dst + i) = values[i];
@@ -278,10 +283,10 @@ namespace ft
             const_iterator begin() const {return const_iterator(_arr);}
             iterator end() {return iterator(_arr + _size);}
             const_iterator end() const {return const_iterator(_arr + _size);}
-            iterator rbegin() {return reversse_iterator(end());}
-            const_iterator rbegin() const {return const_reverse_iterator(end());}
-            iterator rend() {return iterator(begin());}
-            const_iterator rend() const {return const_reverse_iterator(begin());}
+            reverse_iterator rbegin() {return reverse_iterator(end());}
+            const_reverse_iterator rbegin() const {return const_reverse_iterator(end());}
+            reverse_iterator rend() {return reverse_iterator(begin());}
+            const_reverse_iterator rend() const {return const_reverse_iterator(begin());}
     };
     //==================================Non MEmber Function============================//
     template<class T, class Alloc>
@@ -299,7 +304,7 @@ namespace ft
     template<class T, class Alloc>
         bool    operator<(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
         {
-            return (ft::lexicographical_compare(lhs.begin(), lhs.end()), rhs.begin(), rhs.end());
+            return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
         }
     template<class T, class Alloc>
         bool    operator<=(const ft::vector<T, Alloc>& lhs, const ft::vector<T, Alloc>& rhs)
