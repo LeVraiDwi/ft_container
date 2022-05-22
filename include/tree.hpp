@@ -6,7 +6,7 @@
 namespace ft
 {
     template <class value_type>
-    struct tree_node
+        struct tree_node
     {
         public:
 

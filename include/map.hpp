@@ -691,9 +691,6 @@ namespace ft {
 			
 	};
 
-	/*  __________________  NO MEMBER FUNCTION OVERLOADS __________________ */
-	/*  __________________  RELATIONAL OPERATORS __________________ */
-
 	template <class Key, class T, class Compare, class Alloc >
   	bool operator== ( const map<Key,T,Compare,Alloc>& lhs, const map<Key,T,Compare,Alloc>& rhs )
 	{

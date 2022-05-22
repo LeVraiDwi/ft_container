@@ -16,14 +16,14 @@ namespace ft
             template<class U, class V>
                 pair(const pair<U,V>& pr): first(pr.first), second(pr.second) {}
             
-            /*pair&   operator=(const pair& pr)
+            pair&   operator=(const pair& pr)
             {
                 this->first = pr.first;
                 this->second = pr.second;
                 return *this;
-            }*/
+            }
         };
-    //operator//
+
     template <class T1, class T2>
         bool operator==(const pair<T1,T2>& lhs, const pair<T1,T2>& rhs)
         {
@@ -54,7 +54,7 @@ namespace ft
         {
             return !(lhs < rhs);
         }
-    //make pair//
+
     template <class T1,class T2>
         pair<T1,T2> make_pair (T1 x, T2 y)
         {

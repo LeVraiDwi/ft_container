@@ -6,6 +6,7 @@
 #include <map>
 #include <stack>
 #include <vector>
+#include <list>
 
 #if 0 //CREATE A REAL STL EXAMPLE
 	#include <map>
@@ -20,7 +21,7 @@
 
 #include <stdlib.h>
 
-using namespace ft;
+using namespace std;
 
 #define MAX_RAM 4294967296
 #define BUFFER_SIZE 4096
@@ -65,12 +66,12 @@ template <class K, class V>
 void    printMap(map<K, V> m){
         std::string r = "";
         for (typename map<K,V>::iterator it = m.begin(); it != m.end(); it++){
-                r += std::to_string((*it).first);
-                r += ":";
-                r += std::to_string((*it).second);
-                r += " ";
+                std::cout << (*it).first;
+                std::cout << ":";
+                std::cout << (*it).second;
+                std::cout << " ";
         }
-        std::cout << r << std::endl;
+        std::cout << std::endl;
 }
 
 
@@ -243,11 +244,74 @@ void    map_en_details(){
         printMap(n);
 }
 
+void	stack_basiques(){
+	//member_functions
+	stack<char> s1;
+	std::cout << s1.size() << std::endl;
+	stack<char> d;
+	d.push('d');
+	d.push('q');
+	stack<char> s2 = d;
+	s2.push('!');
+	for (;!s2.empty(); s2.pop())
+		std::cout << s2.top() << std::endl;
+	//non_member functions oerloads
+	s1.push(';');
+	std::cout << (s1 == s2) << std::endl;
+	std::cout << (s1 != s2) << std::endl;
+	std::cout << (s1 < s2) << std::endl;
+	std::cout << (s1 <= s2) << std::endl;
+	std::cout << (s1 > s2) << std::endl;
+	std::cout << (s1 >= s2) << std::endl;
+}
+
+void	stack_en_details(){
+	#define S int
+	stack<S, std::deque<S> > a;
+	stack<S, std::list<S> > b;
+	for (int i = 0; i < 5; i++){
+		a.push(i*1);
+		b.push(i*2);
+	}
+	for (int i = 0; i < 5; i++){
+		std::cout << a.top();
+		std::cout << b.top();
+		std::cout << std::endl;
+		a.pop();
+		b.pop();
+	}
+}
+
+void	vector_en_details(){
+	#define ATYPE char
+	vector<ATYPE> a;
+	for (int i = 0 ; i < 6; i ++)
+		a.push_back(i + 'a');
+	vector<ATYPE>::iterator it = a.begin() + 1;
+	vector<ATYPE>::const_iterator cit = a.begin() + 2;
+	std::cout << (it != cit) << std::endl;
+	std::cout << (it > cit) << std::endl;
+	vector<ATYPE> b;
+	for (int i = 0 ; i < 9; i ++)
+		b.push_back(i + 'A');
+	
+	vector<ATYPE>::reference r = a.at(2);
+	a.swap(b);
+	it++;
+	*it = 'Z';
+	r = 'X';
+	printVec(a);
+	printVec(b);
+}
+
 int main(/*int argc, char** argv*/) {
 
-	//map_en_details();
+	map_en_details();
 	map_basiques();
-	//vector_basiques();
+	vector_basiques();
+        stack_en_details();
+        stack_basiques();
+        vector_en_details();
 	/*if (argc != 2)
 	{
 		std::cerr << "Usage: ./test seed" << std::endl;
